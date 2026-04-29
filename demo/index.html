@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pareto Demo Surface</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family:
+          Satoshi, "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        --bg: #07100f;
+        --panel: #0d1a18;
+        --border: #1d3a34;
+        --text: #edfff8;
+        --muted: #9eb7ad;
+        --accent: #2fd6a3;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        background:
+          linear-gradient(180deg, rgb(47 214 163 / 8%), transparent 260px),
+          var(--bg);
+        color: var(--text);
+        margin: 0;
+      }
+
+      main {
+        display: grid;
+        gap: 16px;
+        margin: 0 auto;
+        max-width: 1080px;
+        padding: 28px 16px 56px;
+      }
+
+      header {
+        align-items: end;
+        display: flex;
+        gap: 18px;
+        justify-content: space-between;
+      }
+
+      h1,
+      h2,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        font-size: clamp(28px, 5vw, 56px);
+        line-height: 0.95;
+        max-width: 660px;
+      }
+
+      .eyebrow {
+        color: var(--accent);
+        font-size: 12px;
+        font-weight: 900;
+        letter-spacing: 0;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+      }
+
+      .status {
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 800;
+        padding: 9px 12px;
+        white-space: nowrap;
+      }
+
+      .surface-grid {
+        display: grid;
+        gap: 14px;
+        grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+      }
+
+      section,
+      article {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 16px;
+      }
+
+      h2 {
+        font-size: 17px;
+        margin-bottom: 12px;
+      }
+
+      .feed {
+        display: grid;
+        gap: 12px;
+      }
+
+      .post {
+        display: grid;
+        gap: 10px;
+      }
+
+      .meta,
+      .table-row span,
+      .token-meta,
+      .muted {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      code {
+        color: #c8ffe9;
+        font-family: "SF Mono", "JetBrains Mono", ui-monospace, monospace;
+        overflow-wrap: anywhere;
+      }
+
+      .table {
+        display: grid;
+        gap: 8px;
+      }
+
+      .table-row {
+        align-items: center;
+        background: #10211e;
+        border: 1px solid #1a342f;
+        border-radius: 8px;
+        display: grid;
+        gap: 8px;
+        grid-template-columns: minmax(0, 1fr) auto;
+        padding: 12px;
+      }
+
+      .token-stack {
+        display: grid;
+        gap: 10px;
+      }
+
+      .token-card {
+        display: grid;
+        gap: 8px;
+      }
+
+      @media (max-width: 760px) {
+        header {
+          align-items: start;
+          flex-direction: column;
+        }
+
+        .surface-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <div>
+          <p class="eyebrow">Pareto demo fixture</p>
+          <h1>One page that behaves like X, Solscan, and Dexscreener.</h1>
+        </div>
+        <span class="status">Open with Pareto extension loaded</span>
+      </header>
+
+      <div class="surface-grid">
+        <section>
+          <h2>X discourse</h2>
+          <div class="feed">
+            <article class="post">
+              <p class="meta">@northstarSOL · 12m</p>
+              <p>
+                Wallet 9xQeWvG816bUx9EPfVgJ8Nc7z5J1p6pMKJEyP5dZV9pQ started accumulating before
+                the first large candle. Watch the smart followers.
+              </p>
+            </article>
+            <article class="post">
+              <p class="meta">@tapereader · 28m</p>
+              <p>
+                Deleted call tied to DezXAZ8z7PnrnRJjz3tJkqJuuXbhS5uh3ndet2qtSk. Same cluster is
+                routing exits through H8sQz5QxR6x2hH7c9w9cE7b5QhVKc2u8TR4oQV7y6uLa.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section>
+          <h2>Dexscreener tokens</h2>
+          <div class="token-stack">
+            <article class="token-card">
+              <p class="token-meta">$PULSE · 4.2m volume</p>
+              <code>DezXAZ8z7PnrnRJjz3tJkqJuuXbhS5uh3ndet2qtSk</code>
+            </article>
+            <article class="token-card">
+              <p class="token-meta">USDC quote mint</p>
+              <code>EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v</code>
+            </article>
+          </div>
+        </section>
+      </div>
+
+      <section>
+        <h2>Solscan transaction table</h2>
+        <div class="table">
+          <div class="table-row">
+            <div>
+              <span>Funded by</span>
+              <p><code>7RkQ6czKJ5wZLD6KCMF6y8KJY5nNtQwQp6sQmYWdkJ9u</code></p>
+            </div>
+            <strong>+42.9 SOL</strong>
+          </div>
+          <div class="table-row">
+            <div>
+              <span>Potential alt-wallet</span>
+              <p><code>5YkX4v7qGkYmUfEJ9kHPV4qWYh7mDZCqWLwJx2Xz9uTR</code></p>
+            </div>
+            <strong>+8.4 SOL</strong>
+          </div>
+          <div class="table-row">
+            <div>
+              <span>Unknown fallback profile</span>
+              <p><code>6du2tR9qVAGGdyG8bCq3Cyeu8S2rYwbSqUf6QmYWk2xF</code></p>
+            </div>
+            <strong>+2.1 SOL</strong>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

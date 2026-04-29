@@ -1,0 +1,14 @@
+node_modules
+.output
+.wxt
+dist
+coverage
+*.log
+.DS_Store
+codex-session.jsonl
+claude-session.jsonl
+AGENTS.md
+build-context.md
+grant-application-draft.md
+idea-context.md
+.superstack

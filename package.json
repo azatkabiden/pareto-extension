@@ -1,0 +1,33 @@
+{
+  "name": "pareto-extension",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wxt",
+    "build": "wxt build",
+    "zip": "wxt zip",
+    "postinstall": "wxt prepare",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check .",
+    "test": "vitest run",
+    "verify": "bun run lint && bun run typecheck && bun run test && bun run build",
+    "demo": "bun scripts/demo-server.ts"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.11.0",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.13",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@wxt-dev/module-react": "^1.2.2",
+    "jsdom": "^29.1.0",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.5",
+    "wxt": "^0.20.25"
+  }
+}
