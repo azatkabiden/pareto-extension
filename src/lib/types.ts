@@ -47,6 +47,16 @@ export interface ParetoEntity {
   lastUpdated: string;
 }
 
+export interface LiveSolanaBalance {
+  address: string;
+  cluster: "mainnet-beta";
+  lamports: number;
+  sol: number;
+  slot: number;
+  fetchedAt: string;
+  source: string;
+}
+
 export type TradeSide = "buy" | "sell";
 export type TradeStatus = "draft" | "simulated" | "recorded";
 
@@ -66,6 +76,7 @@ export interface TradeDraft {
 
 export interface ParetoState {
   selectedEntity: ParetoEntity;
+  liveBalance?: LiveSolanaBalance;
   watchlist: string[];
   tradeHistory: TradeDraft[];
 }
@@ -74,6 +85,7 @@ export type RuntimeMessage =
   | { type: "getState" }
   | { type: "getEntity"; address: string }
   | { type: "selectEntity"; address: string }
+  | { type: "refreshLiveBalance"; address: string }
   | { type: "toggleWatchlist"; address: string }
   | {
       type: "simulateTrade";
@@ -93,5 +105,6 @@ export type RuntimeEvent =
 export type RuntimeResponse =
   | { ok: true; state: ParetoState }
   | { ok: true; entity: ParetoEntity }
+  | { ok: true; liveBalance: LiveSolanaBalance }
   | { ok: true; draft: TradeDraft }
   | { ok: false; error: string };

@@ -11,6 +11,7 @@ import {
   ShieldCheck,
   Star,
   Users,
+  WalletCards,
 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { browser } from "wxt/browser";
@@ -42,6 +43,7 @@ export function SidePanel() {
   const [slippageBps, setSlippageBps] = useState(DEFAULT_TRADE.slippageBps);
   const [priorityFeeSol, setPriorityFeeSol] = useState(DEFAULT_TRADE.priorityFeeSol);
   const [busySide, setBusySide] = useState<"buy" | "sell" | null>(null);
+  const [balanceBusy, setBalanceBusy] = useState(false);
 
   const loadState = useCallback(async () => {
     const response = await sendMessage({ type: "getState" });
@@ -103,6 +105,26 @@ export function SidePanel() {
     setBusySide(null);
   }
 
+  async function refreshLiveBalance() {
+    if (!state) {
+      return;
+    }
+
+    setBalanceBusy(true);
+    const response = await sendMessage({
+      type: "refreshLiveBalance",
+      address: state.selectedEntity.address,
+    });
+
+    if (response.ok) {
+      await loadState();
+    } else {
+      setError(response.error);
+    }
+
+    setBalanceBusy(false);
+  }
+
   if (error) {
     return (
       <main className="shell">
@@ -142,6 +164,36 @@ export function SidePanel() {
         entity={entity}
         onToggleWatchlist={() => void toggleWatchlist(entity.address)}
       />
+
+      <section className="panel live-panel" aria-labelledby="live-title">
+        <div className="section-heading">
+          <div>
+            <p>Solana RPC</p>
+            <h2 id="live-title">Live mainnet check</h2>
+          </div>
+          <WalletCards aria-hidden="true" />
+        </div>
+        <div className="live-row">
+          <div>
+            <span>Native balance</span>
+            <strong>{state.liveBalance ? formatSol(state.liveBalance.sol) : "Not checked"}</strong>
+            <small>
+              {state.liveBalance
+                ? `Slot ${state.liveBalance.slot.toLocaleString("en-US")}`
+                : "Uses getBalance on Solana mainnet-beta"}
+            </small>
+          </div>
+          <button
+            type="button"
+            className="button secondary compact"
+            disabled={balanceBusy}
+            onClick={() => void refreshLiveBalance()}
+          >
+            <RefreshCw aria-hidden="true" />
+            {balanceBusy ? "Checking" : "Refresh"}
+          </button>
+        </div>
+      </section>
 
       <section className="panel trade-panel" aria-labelledby="trade-title">
         <div className="section-heading">

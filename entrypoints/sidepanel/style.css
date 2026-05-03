@@ -316,7 +316,8 @@ input {
 }
 
 .cluster-item,
-.history-item {
+.history-item,
+.live-row {
   align-items: center;
   background: var(--panel-strong);
   border: 1px solid var(--border);
@@ -327,11 +328,31 @@ input {
   padding: 9px;
 }
 
+.live-row span,
 .cluster-item span,
 .history-item small,
 .muted {
   color: var(--muted);
   font-size: 12px;
+}
+
+.live-row strong {
+  color: var(--accent-strong);
+  display: block;
+  font-family: "SF Mono", "JetBrains Mono", ui-monospace, monospace;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.live-row small {
+  color: var(--subtle);
+  display: block;
+  font-size: 11px;
+  margin-top: 4px;
+}
+
+.button.compact {
+  flex: 0 0 auto;
 }
 
 .cluster-item strong {

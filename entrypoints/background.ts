@@ -5,10 +5,18 @@ import {
   getEntitySnapshot,
   simulateParetoTrade,
 } from "../src/lib/fixtures";
-import type { ParetoState, RuntimeEvent, RuntimeMessage, RuntimeResponse } from "../src/lib/types";
+import { fetchLiveSolBalance } from "../src/lib/solana-rpc";
+import type {
+  LiveSolanaBalance,
+  ParetoState,
+  RuntimeEvent,
+  RuntimeMessage,
+  RuntimeResponse,
+} from "../src/lib/types";
 
 interface StoredParetoState {
   selectedAddress?: string;
+  liveBalances?: Record<string, LiveSolanaBalance>;
   watchlist?: string[];
   tradeHistory?: ParetoState["tradeHistory"];
 }
@@ -47,6 +55,18 @@ async function handleRuntimeMessage(message: RuntimeMessage): Promise<RuntimeRes
           ok: true,
           entity: getEntitySnapshot(message.address, (await readStoredState()).watchlist),
         };
+      }
+      case "refreshLiveBalance": {
+        const liveBalance = await fetchLiveSolBalance(message.address);
+        const stored = await readStoredState();
+        await browser.storage.local.set({
+          liveBalances: {
+            ...(stored.liveBalances ?? {}),
+            [message.address]: liveBalance,
+          },
+        });
+        await broadcastRuntimeEvent({ type: "stateChanged" });
+        return { ok: true, liveBalance };
       }
       case "toggleWatchlist": {
         const stored = await readStoredState();
@@ -91,13 +111,19 @@ async function readParetoState(): Promise<ParetoState> {
 
   return {
     selectedEntity: getEntitySnapshot(selectedAddress, watchlist),
+    liveBalance: stored.liveBalances?.[selectedAddress],
     watchlist,
     tradeHistory: stored.tradeHistory ?? [],
   };
 }
 
 async function readStoredState(): Promise<StoredParetoState> {
-  return browser.storage.local.get(["selectedAddress", "watchlist", "tradeHistory"]);
+  return browser.storage.local.get([
+    "selectedAddress",
+    "liveBalances",
+    "watchlist",
+    "tradeHistory",
+  ]);
 }
 
 async function enableSidePanelAction(): Promise<void> {

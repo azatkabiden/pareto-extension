@@ -33,6 +33,8 @@ The current MVP includes:
   simulated buy/sell actions.
 - Side panel command center with selected entity, PnL, win rate, smart followers,
   linked wallets, CT mentions, watchlist, and demo trade history.
+- Live Solana mainnet balance lookup through the official JSON-RPC `getBalance`
+  method for the selected wallet/token address.
 - Local fixture page that mimics X, Solscan, and Dexscreener surfaces.
 - Deterministic fallback profiles for unknown Solana-like addresses.
 
@@ -84,7 +86,7 @@ bun run verify
   Pareto inspector.
 - `entrypoints/sidepanel/` contains the React side panel UI.
 - `src/lib/` contains shared types, address helpers, deterministic fixtures, formatters,
-  and trade simulation.
+  Solana RPC helpers, and trade simulation.
 - `demo/index.html` is a local fixture surface for browser QA.
 
 ## Demo-Safe Limits
